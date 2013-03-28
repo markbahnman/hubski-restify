@@ -1,5 +1,6 @@
 var $ = require('jquery');
 var JSON = require('JSON2');
+//var jsdom = require ('jsdom');
 
 var getFeed = function(username) {
 
@@ -23,11 +24,16 @@ exports.getFeed = getFeed;
 var parseFeedJSON = function(html) {
 	var baseURL = 'http://hubski.com/';
 	// Setup our posts array which will contain all of the post objects
-	console.log('In parseFeedJSON');
+	//console.log('In parseFeedJSON');
+	//console.log($('body').html());
 	var posts = [];
+	$doc = $(html);
+
+	//console.log($doc.find('#grid').html());
+	//console.log('Feedtitle: '+$().find('feedtitle > a').html());
 	// Get the first node in the grid
 	
-	for(var node = $('#grid > #unit:first'); node.is('div.box'); node = node.next()) {
+	for(var node = $doc.find('#grid > #unit:first'); node.is('div.box'); node = node.next()) {
 		// Create an empty post object
 		var post = {};
 
@@ -39,7 +45,7 @@ var parseFeedJSON = function(html) {
 		 * You can check to see if this is a upvote or downvote
 		 * by looking for the &dir= property
 		 */
-		var voteLink = post.find('.plusminus > a').attr('href');
+		var voteLink = node.find('.plusminus > a').attr('href');
 		var topCommentor = node.find('.topcommentor > a').html();
 		var topCommentorLink = baseURL + node.find('.topcommentor > a').attr('href');
 		var commentsLink = baseURL + node.find('.feedcombub > a').attr('href');	
@@ -52,10 +58,10 @@ var parseFeedJSON = function(html) {
 		 */
 
 		var numOfComments = node.find('.feedcombub > a').html();
-		var num = $.trim(removeTagFromString(numOfComments,'img'));
+		var num = removeTagFromString(numOfComments,'img');
 
 		var byName = node.find('.feedsubtitle > a').html();
-		var by = $.trim(removeTagFromString(byName,'font'));
+		var by = removeTagFromString(byName,'font');
 
 		/*
 		var tags = node.find('.usertrigger > a');
@@ -67,7 +73,7 @@ var parseFeedJSON = function(html) {
 		}
 		*/
 
-		post = {'title': title, 'link': link, 'voteUp': voteUp, 'topCommentor': topCommentor, 'topCommentorLink': topCommentorLink, 'commentsLink': commentsLink, 'numOfComments': $numOfComments, 'by': by};
+		post = {'title': title, 'link': link, 'voteLink': voteLink, 'topCommentor': topCommentor, 'topCommentorLink': topCommentorLink, 'commentsLink': commentsLink, 'numOfComments': num, 'by': by};
 
 		posts.push(post);
 	}
@@ -79,5 +85,8 @@ var parseFeedJSON = function(html) {
 exports.parseFeedJSON = parseFeedJSON;
 
 function removeTagFromString(string, tag) {
-	return $(string).not(tag);
+	var re = new RegExp('<'+tag+'.*/>','g');
+	var returnStr = string.replace(re,'');
+	returnStr = returnStr.replace('<'+tag+'/>','');
+	return returnStr;
 }
