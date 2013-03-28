@@ -38,7 +38,6 @@ var parseFeedJSON = function(html) {
 		var post = {};
 
 		var title = node.find('.feedtitle > a').html();
-		console.log('Title: ' + title)
 		var link = node.find('.feedtitle > a').attr('href');
 
 		/* 

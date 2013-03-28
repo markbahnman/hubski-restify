@@ -2,8 +2,10 @@ var restify = require('restify');
 var hubski = require('./hubski.js');
 
 function respond(req, res, next) {
-	//res.send('User ' + req.params.username);
-	res.send(hubski.getFeed(req.params.username));
+	hubski.getFeed(req.params.username).done(function(data) {
+        res.send(data);
+    });
+
 }
 
 var server = restify.createServer();
