@@ -1,4 +1,5 @@
 var $ = require('jquery');
+var JSON = require('JSON2');
 
 var getFeed = function(username) {
 
@@ -10,7 +11,7 @@ var getFeed = function(username) {
 		datatype: 'html',
 		success: function(data) {
 			var feedJSON = parseFeedJSON(data);
-			dfd.resolve(feedJSON);
+			dfd.resolve(JSON.stringify(feedJSON));
 		}
 	});
 
@@ -22,6 +23,7 @@ exports.getFeed = getFeed;
 var parseFeedJSON = function(html) {
 	var baseURL = 'http://hubski.com/';
 	// Setup our posts array which will contain all of the post objects
+	console.log('In parseFeedJSON');
 	var posts = [];
 	// Get the first node in the grid
 	
@@ -30,6 +32,7 @@ var parseFeedJSON = function(html) {
 		var post = {};
 
 		var title = node.find('.feedtitle > a').html();
+		console.log('Title: ' + title)
 		var link = node.find('.feedtitle > a').attr('href');
 
 		/* 
