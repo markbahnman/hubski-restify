@@ -62,17 +62,21 @@ var parseFeedJSON = function(html) {
 		var byName = node.find('.feedsubtitle > a').html();
 		var by = removeTagFromString(byName,'font');
 
+		
+		var tag = node.find('.feedsubtitle > span > span > a').html();
+		console.log(tag);
 		/*
-		var tags = node.find('.usertrigger > a');
-		for( tag in tags) {
-			var tagName = $.trim(removeTagFromString(tag.html(),'font'));
+		for( tag in tagsHTML) {
+			console.log(tag);
+			console.log(tag.html());
+			var tagName = removeTagFromString(tag,'font');
 			var tagLink = baseURL + tag.attr('href');
 
-			post.push({''})
+			tags.push({'tagName': tagName,'tagLink':tagLink});
 		}
 		*/
 
-		post = {'title': title, 'link': link, 'voteLink': voteLink, 'topCommentor': topCommentor, 'topCommentorLink': topCommentorLink, 'commentsLink': commentsLink, 'numOfComments': num, 'by': by};
+		post = {'title': title, 'link': link, 'voteLink': voteLink, 'topCommentor': topCommentor, 'topCommentorLink': topCommentorLink, 'commentsLink': commentsLink, 'numOfComments': num,'tags': tag, 'by': by};
 
 		posts.push(post);
 	}
@@ -85,7 +89,8 @@ exports.parseFeedJSON = parseFeedJSON;
 
 function removeTagFromString(string, tag) {
 	var re = new RegExp('<'+tag+'.*/>','g');
-	var returnStr = string.replace(re,'');
+	var returnStr = string;
+	returnStr = string.replace(re,'');
 	returnStr = returnStr.replace('<'+tag+'/>','');
 	return returnStr;
 }
