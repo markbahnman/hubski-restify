@@ -24,15 +24,11 @@ exports.getFeed = getFeed;
 var parseFeedJSON = function(html) {
 	var baseURL = 'http://hubski.com/';
 	// Setup our posts array which will contain all of the post objects
-	//console.log('In parseFeedJSON');
-	//console.log($('body').html());
+
 	var posts = [];
 	$doc = $(html);
 
-	//console.log($doc.find('#grid').html());
-	//console.log('Feedtitle: '+$().find('feedtitle > a').html());
 	// Get the first node in the grid
-	
 	for(var node = $doc.find('#grid > #unit:first'); node.is('div.box'); node = node.next()) {
 		// Create an empty post object
 		var post = {};
