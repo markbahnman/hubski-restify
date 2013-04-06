@@ -1,5 +1,5 @@
 var $ = require('jquery');
-var JSON = require('JSON2');
+//var JSON = require('JSON2');
 //var jsdom = require ('jsdom');
 
 var getFeed = function(username) {
@@ -12,7 +12,7 @@ var getFeed = function(username) {
 		datatype: 'html',
 		success: function(data) {
 			var feedJSON = parseFeedJSON(data);
-			dfd.resolve(JSON.stringify(feedJSON));
+			dfd.resolve(feedJSON);
 		}
 	});
 
@@ -60,7 +60,7 @@ var parseFeedJSON = function(html) {
 
 		
 		var tag = node.find('.feedsubtitle > span > span > a').html();
-		console.log(tag);
+		
 		/*
 		for( tag in tagsHTML) {
 			console.log(tag);
