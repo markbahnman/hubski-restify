@@ -1,6 +1,4 @@
 var $ = require('jquery');
-//var JSON = require('JSON2');
-//var jsdom = require ('jsdom');
 
 var getFeed = function(username) {
 
