@@ -4,8 +4,7 @@
   , "private": true
   , "dependencies": {
       "restify": "*",
-      "jquery": "*",
-      "JSON2": "*"
+      "jquery": "*"
   },
     "engines": {
       "node": "0.10.x",
