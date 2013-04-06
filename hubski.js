@@ -70,7 +70,7 @@ var parseFeedJSON = function(html) {
 		}
 		*/
 
-		post = {'title': title, 'link': link, 'voteLink': voteLink, 'topCommentor': topCommentor, 'topCommentorLink': topCommentorLink, 'commentsLink': commentsLink, 'numOfComments': num,'tags': tag, 'by': by};
+		post = {'Title': title, 'Link': link, 'VoteLink': voteLink, 'TopCommentor': topCommentor, 'TopCommentorLink': topCommentorLink, 'CommentsLink': commentsLink, 'NumberOfComments': num,'Tag': tag, 'Author': by};
 
 		posts.push(post);
 	}
