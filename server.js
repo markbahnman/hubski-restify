@@ -15,7 +15,7 @@ function post(req, res, next) {
 
 var server = restify.createServer();
 server.pre(restify.pre.userAgentConnection());
-server.get('/feed/:username', feed);
+server.get('/feed/user/:username', feed);
 server.get('/post/:id', post);
 
 var port = process.env.PORT || 5000
