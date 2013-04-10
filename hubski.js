@@ -1,3 +1,4 @@
+// Beware traveller, below thar be regex
 var $ = require('jquery');
 
 // Constants which may be subject to change with mk's whims
@@ -64,17 +65,38 @@ var parsePost = function(html) {
 	return JSON;
 }
 
-var getTags = function(tagString) {
+var getTags= function(tagString) {
 	var tags = [];
-	//TODO: Use some regex to get the tags
+	var re = new RegExp('<a href="tag\\?id=([a-zA-Z0-9]*)">','g');
+	for(var i = 0; i < 2; i++) {
+		var tag = re.exec(tagString);
+		if(tag != null) {
+			tags.push(RegExp.$1);
+		}
+	}
 	return tags;
 }
-
 var getComments = function(html) {
 	$doc = $(html);
 	var comments = [];
+
+	var commentObjList = $('.outercomm');
+
+	for(var i = commentObjList.length - 1; i >= 0; i--) {
+		var comm = commentObjList[i];
+
+		var author = getUser(comm.find('span.comhead').html());
+	};
 	//TODO: Create an array of comments and their relationships
 	return comments;
+}
+
+var getUser = function(html) {
+	var user = null;
+	var re = new RegExp('<a href="user\\?id=([a-z0-9\-\_]*)">','i');
+	html.match(re);
+	user = RegExp.$1;
+	return user;
 }
 
 var getTime = function(html) {
@@ -83,6 +105,31 @@ var getTime = function(html) {
 	//TODO: Parse out the time of the post
 	return posted;
 }
+
+var getCommentId = function(html) {
+	var id = null;
+	var re = new RegExp('<a href="pub\\?=([0-9]*)">','i');
+	html.match(re);
+	id = RegExp.$1;
+	return id;
+}
+
+var getSaveFnid = function(html) {
+	var fnid = null;
+	var re = new RegExp('<a href="\/r\\?fnid=([a-z0-9]*)">','i');
+	html.match(re);
+	fnid = RegExp.$1;
+	return fnid;
+}
+
+var getBadgeLink = function(html) {
+	var fnid = null;
+	var re = new RegExp('<a href="\/x\\?fnid=([a-zA-Z0-9]*)">','i');
+	html.match(re);
+	fnid = RegExp.$1;
+	return fnid;
+}
+
 var parseFeed = function(html) {
 	var posts = [];
 	$doc = $(html);
@@ -118,20 +165,9 @@ var parseFeed = function(html) {
 		var by = removeTagFromString(byName,'font');
 
 		
-		var tag = node.find('.feedsubtitle > span > span > a').html();
-		
-		/*
-		for( tag in tagsHTML) {
-			console.log(tag);
-			console.log(tag.html());
-			var tagName = removeTagFromString(tag,'font');
-			var tagLink = baseURL + tag.attr('href');
+		var tags = getTags(node.find('.feedsubtitle').html());
 
-			tags.push({'tagName': tagName,'tagLink':tagLink});
-		}
-		*/
-
-		post = {'Title': title, 'Link': link, 'VoteLink': voteLink, 'TopCommentor': topCommentor, 'TopCommentorLink': topCommentorLink, 'CommentsLink': commentsLink, 'NumberOfComments': num,'Tag': tag, 'Author': by};
+		post = {'Title': title, 'Link': link, 'VoteLink': voteLink, 'TopCommentor': topCommentor, 'TopCommentorLink': topCommentorLink, 'CommentsLink': commentsLink, 'NumberOfComments': num,'Tags': tags, 'Author': by};
 
 		posts.push(post);
 	}
