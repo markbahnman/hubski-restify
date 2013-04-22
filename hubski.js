@@ -142,7 +142,9 @@ var parseFeed = function(html) {
 
 		var title = node.find('.feedtitle > a').html();
 		var link = node.find('.feedtitle > a').attr('href');
-
+		var domainAnchor = node.find('.feedtitlelinks > .titleurl > a');
+		var domain = domainAnchor.html();
+		var domainLink = domainAnchor.attr('href');
 		/* 
 		 * You can check to see if this is a upvote or downvote
 		 * by looking for the &dir= property
@@ -168,7 +170,7 @@ var parseFeed = function(html) {
 		
 		var tags = getTags(node.find('.feedsubtitle').html());
 
-		post = {'Title': title, 'Link': link, 'VoteLink': voteLink, 'TopCommentor': topCommentor, 'TopCommentorLink': topCommentorLink, 'CommentsLink': commentsLink, 'NumberOfComments': num,'Tags': tags, 'Author': by};
+		post = {'Title': title, 'Link': link, 'Domain': domain, 'DomainLink': domainLink, 'VoteLink': voteLink, 'TopCommentor': topCommentor, 'TopCommentorLink': topCommentorLink, 'CommentsLink': commentsLink, 'NumberOfComments': num,'Tags': tags, 'Author': by};
 
 		posts.push(post);
 	}
