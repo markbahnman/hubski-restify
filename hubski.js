@@ -76,6 +76,7 @@ var getTags= function(tagString) {
 	}
 	return tags;
 }
+
 var getComments = function(html) {
 	$doc = $(html);
 	var comments = [];
