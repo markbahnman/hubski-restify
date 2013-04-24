@@ -1,7 +1,7 @@
 hubski-restify
 ==============
 
-hubski-restify is a RESTful API for [Hubski](http://www.hubski.com) loosedly based off of [Baltoli's API spec](Baltoli/hubski-api-spec).
+hubski-restify is a RESTful API for [Hubski](http://www.hubski.com) loosedly based off of [Baltoli's API spec](http://github.com/Baltoli/hubski-api-spec).
 
 ## Usage
 
