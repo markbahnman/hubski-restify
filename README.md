@@ -1,20 +1,22 @@
 hubski-restify
 ==============
 
-hubski-restify is a RESTful API for [Hubski](www.hubski.com) loosedly based off of [Baltoli's API spec](github.com/Baltoli/hubski-api-spec). Node.js is used for dependancy management and simplified deployment.
+hubski-restify is a RESTful API for [Hubski](www.hubski.com) loosedly based off of [Baltoli's API spec](github.com/Baltoli/hubski-api-spec).
 
 ## Usage
 
-After cloning the repository you can install the dependancies with 
+To run the server you first need to have [Node.js](http://nodejs.org/) and the [Node Packaged Modules](https://npmjs.org/) installed.
+
+After cloning the repository you can install the dependancy modules with 
 ```
-node install
+npm install
 ```
 Then you can run the API server with 
 ```
 node server.js
 ```
 
-The repo comes with a Procfile which can be used to run the server on Heroku.
+Note: The repo comes with a Procfile which can be used to run the server on [Heroku](https://www.heroku.com/). Because it does not store any data it can be run as a free app. If you want to run it on heroku [deploy it using git](https://devcenter.heroku.com/articles/git) on a new or existing app using the [Heroku Toolbelt](https://toolbelt.herokuapp.com/).
 
 ## Endpoints
 
