@@ -17,7 +17,7 @@ Field|Type|Description
 -----|----|-----------
 Title | string | Title of the post
 Link|string|URL of the post which either points to an external URL or a hubski post id. Hubski post links will be in the form of `pub?id=<id>`
-Domain| string | Domain name of the link for external links: `[example.com]` &#10; Type of post for hubski links: `[text]/[video]/[auduo]`
+Domain| string | Domain name of the link for external links: `[example.com]` <br> Type of post for hubski links: `[text]/[video]/[auduo]`
 DomainLink | string | Link to the list of posts for that domain or hubski post type
 VoteLink | string | Link to vote on a post
 TopCommentor| string | Username of the person with the top comment on the post
