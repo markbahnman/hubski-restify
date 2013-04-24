@@ -3,15 +3,28 @@ hubski-restify
 
 hubski-restify is a RESTful API for [Hubski](www.hubski.com) loosedly based off of [Baltoli's API spec](github.com/Baltoli/hubski-api-spec). Node.js is used for dependancy management and simplified deployment.
 
+## Usage
+
+After cloning the repository you can install the dependancies with 
+```
+node install
+```
+Then you can run the API server with 
+```
+node server.js
+```
+
+The repo comes with a Procfile which can be used to run the server on Heroku.
+
 ## Endpoints
 
 All endpoints are relative to the server the API is run on. For example, if you run the server locally the base address would be `http://localhost:5000`
 
 ### Feeds
 
-GET /feed/user/<username>
+`GET /feed/user/<username>`
 
-This returns a JSON object with a `"posts"` field which contains an array of posts which make up the userfeed. Each post has the following data.
+Returns a JSON object with a `"posts"` field which contains an array of posts which make up the userfeed. Each post has the following data.
 
 Field|Type|Description
 -----|----|-----------
@@ -26,3 +39,20 @@ CommentsLink | string | Link to the full comments for the post. The same as the 
 NumberOfComments | string | Number of comments on the post
 Tags | string array | The tags for the post; possible empty
 Author | string | The username of who posted the post
+
+### Post
+
+`GET /post/<id>`
+
+Returns a JSON object. The id of a post can be seen in the URL a post, e.g. `http://hubski.com/pub?id=<id>`
+
+Field|Type|Description
+-----|----|-----------
+Title | string | Title of the post
+Link|string|URL of the post which either points to an external URL or a hubski post id. Hubski post links will be in the form of `pub?id=<id>`
+Text | string | The text of the post if the author included text. This can include HTML tags such as `<p>` and `<br>`
+Posted | string | How long ago the post was posted
+NumberOfComments | string | Number of comments of the post
+Author| string | User who submitted the post
+SharedBy | string | User who shared this with you
+Tags | string array | The tags for the post; possible empty

@@ -61,7 +61,7 @@ var parsePost = function(html) {
 	var posted = getTime(html);
 	var numOfComments = removeTagFromString($doc.find('span.combub > a').html(),'img');
 	var comments = getComments(html);
-	var JSON = {'Title': title, 'Link': link, 'text': text, 'tags': tags, 'Posted': posted, 'Author': author, 'SharedBy': sharedBy, 'NumberOfComments': numOfComments, 'comments': comments};
+	var JSON = {'Title': title, 'Link': link, 'Text': text, 'Tags': tags, 'Posted': posted, 'Author': author, 'SharedBy': sharedBy, 'NumberOfComments': numOfComments, 'comments': comments};
 	return JSON;
 }
 
