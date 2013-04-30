@@ -58,3 +58,4 @@ NumberOfComments | string | Number of comments of the post
 Author| string | User who submitted the post
 SharedBy | string | User who shared this with you
 Tags | string array | The tags for the post; possible empty
+Comments | string array | Not implemented at the moment, merely returns an empty array.

@@ -1,10 +1,21 @@
 // Beware traveller, below thar be regex
 var $ = require('jquery');
+var fs = require('fs');
 
 // Constants which may be subject to change with mk's whims
 var BASEURL = 'http://hubski.com/';
 var FEEDURL = 'feed?id=';
 var POSTURL = 'pub?id=';
+var APIURL = 'api?';
+
+var APIKey = "key=";
+fs.readFile('apikey.txt', 'utf8', function(err, data) {
+	if(err) {
+		return console.log(err);
+	}
+
+	APIKey += data;
+});
 
 /*
  * General purpose async GET function. It provide us with
@@ -49,6 +60,62 @@ var getFeed = function(username) {
 }
 
 exports.getFeed = getFeed;
+
+var getFollows = function(username) {
+	var URL = getAPIURL(username, 'follows');
+	var dfd = $.Deferred();
+
+	GET(URL,parseFollows).done(function(data) {
+		dfd.resolve(data);
+	});
+
+	return dfd.promise();
+}
+
+exports.getFollows = getFollows;
+
+var getFollowedTags = function(username) {
+	var URL = getAPIURL(username, 'tags');
+	var dfd = $.Deferred();
+
+	GET(URL, parseTags).done(function(data) {
+		dfd.resolve(data);
+	});
+
+	return dfd.promise();
+}
+
+exports.getFollowedTags = getFollowedTags;
+
+var getFollowers = function(username) {
+	var URL = getAPIURL(username, 'followers');
+	var dfd = $.Deferred();
+
+	GET(URL, parseFollowers).done(function(data) {
+		dfd.resolve(data);
+	});
+
+	return dfd.promise();
+}
+
+exports.getFollowers = getFollowers;
+
+var parseFollowers = function(data) {
+	var followers = parseAPIData(data);
+	var json = {'followers': followers};
+	return json;
+}
+var parseFollows = function(data) {
+	var follows = parseAPIData(data);
+	var json = {'follows': follows};
+	return json;
+}
+
+var parseTags = function(data) {
+	var tags = parseAPIData(data);
+	var json = {'tags': tags};
+	return json;
+}
 
 var parsePost = function(html) {
 	$doc = $(html);
@@ -145,17 +212,17 @@ var parseFeed = function(html) {
 		var domainAnchor = node.find('.feedtitlelinks > .titleurl > a');
 		var domain = domainAnchor.html();
 		var domainLink = domainAnchor.attr('href');
-		/* 
+		/*
 		 * You can check to see if this is a upvote or downvote
 		 * by looking for the &dir= property
 		 */
 		var voteLink = node.find('.plusminus > a').attr('href');
 		var topCommentor = node.find('.topcommentor > a').html();
 		var topCommentorLink = BASEURL + node.find('.topcommentor > a').attr('href');
-		var commentsLink = BASEURL + node.find('.feedcombub > a').attr('href');	
+		var commentsLink = BASEURL + node.find('.feedcombub > a').attr('href');
 		
 
-		/* 
+		/*
 		 * The method to get the number of comments is to get the
 		 * raw html of the parent <a> and remove the img tag and
 		 * any whitespace.
@@ -180,6 +247,23 @@ var parseFeed = function(html) {
 }
 
 exports.parseFeed = parseFeed;
+
+function removeParens(string) {
+	return string.replace(/[()]/g,'');
+}
+
+function splitData(data) {
+	return data.split(' ');
+}
+
+function parseAPIData(data) {
+	data = removeParens(data);
+	return array = splitData(data);
+}
+
+function getAPIURL(username, variable) {
+	return BASEURL + APIURL + APIKey + '&user=' + username + '&var=' + variable;
+}
 
 function removeTagFromString(string, tag) {
 	var re = new RegExp('<'+tag+'.*/>','g');
